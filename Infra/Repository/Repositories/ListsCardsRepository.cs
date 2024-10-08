@@ -5,7 +5,7 @@ using Infra.Repository.UnitOfWork;
 
 namespace Infra.Repository.Repositories
 {
-    public class ListsCardsRepository(TasksDbContext context) : BaseRepository<ListCard>(context), IListsCardsRepository
+    public class ListsCardsRepository(MongoDbContext context) : BaseRepository<ListCard>(context), IListsCardsRepository
     {
     }
 }

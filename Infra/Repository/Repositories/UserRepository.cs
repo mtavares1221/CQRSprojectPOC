@@ -5,7 +5,7 @@ using Infra.Repository.UnitOfWork;
 
 namespace Infra.Repository.Repositories
 {
-    public class UserRepository(TasksDbContext context) : BaseRepository<User>(context), IUserRepository
+    public class UserRepository(MongoDbContext context) : BaseRepository<User>(context), IUserRepository
     {
     }
 }

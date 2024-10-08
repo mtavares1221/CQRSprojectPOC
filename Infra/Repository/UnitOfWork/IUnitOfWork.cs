@@ -7,6 +7,6 @@ namespace Infra.Repository.UnitOfWork
         IUserRepository UserRepository { get; }
         IWorkspaceRepository WorkspaceRepository { get; }
         IListsCardsRepository ListsCardsRepository { get; }
-        void Commit();
+        //void Commit();
     }
 }

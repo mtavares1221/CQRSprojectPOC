@@ -8,6 +8,6 @@ namespace Application.WorkspaceCQ.Commands
     public record CreateWorkspaceCommand : IRequest<ResponseBase<WorkspaceVIewModel>>
     {
         public string? Title { get; set; }
-        public Guid? UserId { get; set; }
+        public string? UserId { get; set; }
     }
 }

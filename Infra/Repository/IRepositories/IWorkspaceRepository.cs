@@ -10,7 +10,7 @@ namespace Infra.Repository.IRepositories
 {
     public interface IWorkspaceRepository : IBaseRepository<Workspace>
     {
-        public Task<Workspace?> GetWorkspaceAndUserAsync(Guid workspaceId);
-        Task<List<Workspace>> GetAllWorkspacesAndUserSync(Guid userId);
+        public Task<Workspace?> GetWorkspaceAndUserAsync(string workspaceId);
+        Task<List<Workspace>> GetAllWorkspacesAndUserSync(string userId);
     }
 }

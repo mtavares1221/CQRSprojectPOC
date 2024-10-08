@@ -50,7 +50,7 @@ namespace API.Controllers
 
         }
 
-        public static async Task<IResult> Delete([FromServices] IMediator _mediator,Guid id)
+        public static async Task<IResult> Delete([FromServices] IMediator _mediator,string id)
         {
 
             var result = await _mediator.Send(new DeleteWorkspaceCommand { Id = id });
@@ -63,7 +63,7 @@ namespace API.Controllers
 
         }
 
-        public static async Task<IResult> Get([FromServices] IMediator _mediator, Guid id)
+        public static async Task<IResult> Get([FromServices] IMediator _mediator, string id)
         {
             var result = await _mediator.Send(new GetWorkspaceQuery { Id = id });
 
@@ -75,7 +75,7 @@ namespace API.Controllers
 
 
         public static async Task<IResult> GetAll([FromServices] IMediator _mediator,
-            [FromQuery]Guid userId,
+            [FromQuery]string userId,
             [FromQuery] int pageSize,
             [FromQuery] int pageIndex)
         {

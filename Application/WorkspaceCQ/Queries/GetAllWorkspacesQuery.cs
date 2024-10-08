@@ -7,6 +7,6 @@ namespace Application.WorkspaceCQ.Queries
 {
     public record GetAllWorkspacesQuery : QueryBase, IRequest<ResponseBase<PaginetedList<WorkspaceVIewModel>>>
     {
-        public Guid UserId { get; set; }
+        public string UserId { get; set; }
     }
 }

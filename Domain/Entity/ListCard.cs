@@ -1,12 +1,15 @@
 ﻿using Domain.Enum;
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
 using System.ComponentModel.DataAnnotations;
 
 namespace Domain.Entity
 {
     public class ListCard
     {
-        [Key]
-        public Guid Id { get; set; }
+        [BsonId]
+        [BsonRepresentation(BsonType.ObjectId)]
+        public string Id { get; set; } = ObjectId.GenerateNewId().ToString();
 
         [Required]
         [StringLength(45, MinimumLength = 2)]

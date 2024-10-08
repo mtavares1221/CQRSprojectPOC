@@ -36,7 +36,6 @@ namespace Application.WorkspaceCQ.Handlers
 
             //salvar o workspace
             await _unitOfWork.WorkspaceRepository.Update(workspace);
-            _unitOfWork.Commit();
 
             return new ResponseBase<WorkspaceVIewModel>
             {

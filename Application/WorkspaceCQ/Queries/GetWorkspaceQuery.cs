@@ -7,6 +7,6 @@ namespace Application.WorkspaceCQ.Queries
 {
     public record GetWorkspaceQuery : IRequest<ResponseBase<WorkspaceVIewModel>>
     {
-        public Guid Id { get; set; }
+        public string Id { get; set; }
     }
 }

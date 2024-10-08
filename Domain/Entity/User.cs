@@ -1,35 +1,42 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using MongoDB.Bson.Serialization.Attributes;
+using MongoDB.Bson;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Domain.Entity
 {
     public class User
     {
-        [Key]
-        [Required]
-        public Guid Id { get; set; }
+        [BsonId]
+        [BsonRepresentation(BsonType.ObjectId)]
+        public string Id { get; set; } = ObjectId.GenerateNewId().ToString();
 
-        [Required]
-        [StringLength(50, MinimumLength = 3)]
-        [Column(TypeName = "nvarchar(50)")]
+        [BsonRequired]
+        [BsonElement("name")]
         public string? Name { get; set; }
 
-        [StringLength(50, MinimumLength = 3)]
-        [Column(TypeName = "nvarchar(50)")]
+        [BsonElement("surname")]
         public string? Surname { get; set; }
 
-        [Required]
-        [EmailAddress]
+        [BsonRequired]
+        [BsonElement("email")]
         public string? Email { get; set; }
 
-        [Required]
+        [BsonRequired]
+        [BsonElement("passwordHash")]
         public string? PasswordHash { get; set; }
 
-        [Required]
+        [BsonRequired]
+        [BsonElement("username")]
         public string? Username { get; set; }
 
-        public ICollection<Workspace>? Workspaces { get; set; }
+        [BsonElement("workspaces")]
+        public List<string>? WorkspaceIds { get; set; } // IDs das Workspaces
+
+        [BsonElement("refreshToken")]
         public string? RefreshToken { get; set; }
+
+        [BsonElement("refreshTokenExpirationTime")]
         public DateTime? RefreshTokenExpirationTime { get; set; }
     }
 }

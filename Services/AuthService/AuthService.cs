@@ -3,6 +3,7 @@ using Domain.Enum;
 using Infra.Persistence;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using MongoDB.Driver;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
@@ -10,10 +11,10 @@ using System.Text;
 
 namespace Services.AuthService
 {
-    public class AuthService(IConfiguration configuration, TasksDbContext context) : IAuthService
+    public class AuthService(IConfiguration configuration, MongoDbContext context) : IAuthService
     {
         private readonly IConfiguration _configuration = configuration;
-        private readonly TasksDbContext _context = context;
+        private readonly MongoDbContext _context = context;
 
         public string GenerateJWT(string email, string username)
         {
@@ -65,13 +66,18 @@ namespace Services.AuthService
             return builder.ToString();
         }
 
-        public ValidationFieldsUserEnum UniqueEmailAndUsername(string email, string username)
+        public async Task<ValidationFieldsUserEnum> UniqueEmailAndUsername(string email, string username)
         {
-            var users = _context.Users.ToList();
-            var emailExists = users.Exists(x => x.Email == email);
-            var usernameExists = users.Exists(x => x.Username == username);
+            var users = await _context.Users.Find(_ => true).ToListAsync();
 
-            if (emailExists)
+            var emailExists = users.Any(x => x.Email == email);
+            var usernameExists = users.Any(x => x.Username == username);
+
+            if (emailExists && usernameExists)
+            {
+                return ValidationFieldsUserEnum.UsernameAndEmailUnavailable;
+            }
+            else if (emailExists)
             {
                 return ValidationFieldsUserEnum.EmailUnavailable;
             }
@@ -79,12 +85,9 @@ namespace Services.AuthService
             {
                 return ValidationFieldsUserEnum.UsernameUnavailable;
             }
-            else if (usernameExists && emailExists)
-            {
-                return ValidationFieldsUserEnum.UsernameAndEmailUnavailable;
-            }
 
             return ValidationFieldsUserEnum.FieldsOk;
         }
+
     }
 }

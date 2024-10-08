@@ -84,8 +84,13 @@ namespace API.Extensions
             var configuration = builder.Configuration;
 
             // Adicione a configuração do SQL Server
-            builder.Services.AddDbContext<TasksDbContext>
-                (options => options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
+            //builder.Services.AddDbContext<TasksDbContext>
+            //    (options => options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
+
+            // Adicione a configuração do MongoDB
+            builder.Services.AddSingleton<MongoDbContext>(new MongoDbContext(
+                configuration["MongoDB:ConnectionString"]!,
+                configuration["MongoDB:DatabaseName"]!));
         }
 
         public static void AddValidations(this WebApplicationBuilder builder)

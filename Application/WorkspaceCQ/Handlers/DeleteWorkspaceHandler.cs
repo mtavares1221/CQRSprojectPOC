@@ -39,7 +39,6 @@ namespace Application.WorkspaceCQ.Handlers
             await _unitOfWork.ListsCardsRepository.DeleteRange(listCards);
 
             await _unitOfWork.WorkspaceRepository.Delete(workspace);
-            _unitOfWork.Commit();
 
             return new ResponseBase<DeleteWorkspaceCommand>
             {

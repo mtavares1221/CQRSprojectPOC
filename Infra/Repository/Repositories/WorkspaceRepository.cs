@@ -3,6 +3,7 @@ using Infra.Persistence;
 using Infra.Repository.IRepositories;
 using Infra.Repository.UnitOfWork;
 using Microsoft.EntityFrameworkCore;
+using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,23 +12,22 @@ using System.Threading.Tasks;
 
 namespace Infra.Repository.Repositories
 {
-    public class WorkspaceRepository(TasksDbContext context) : BaseRepository<Workspace>(context),IWorkspaceRepository
+    public class WorkspaceRepository(MongoDbContext context) : BaseRepository<Workspace>(context),IWorkspaceRepository
     {
-        private readonly TasksDbContext _context = context;
-        public async Task<Workspace?> GetWorkspaceAndUserAsync(Guid workspaceId)
+        private readonly MongoDbContext _context = context;
+        public async Task<Workspace?> GetWorkspaceAndUserAsync(string workspaceId)
         {
-
+            // Aqui usamos o Id como string
             return await _context.Workspaces
-                .Include(x => x.User)
-                .FirstOrDefaultAsync(x => x.Id == workspaceId);
-
+                .Find(workspace => workspace.Id == workspaceId)
+                .FirstOrDefaultAsync();
         }
 
-        public async Task<List<Workspace>> GetAllWorkspacesAndUserSync(Guid userId)
+        public async Task<List<Workspace>> GetAllWorkspacesAndUserSync(string userId)
         {
+            // Aqui também usamos o Id como string
             return await _context.Workspaces
-                .Include(x => x.User)
-                .Where(x => x.User!.Id == userId)
+                .Find(workspace => workspace.User!.Id == userId) // Mudamos para UserId que é string
                 .ToListAsync();
         }
     }

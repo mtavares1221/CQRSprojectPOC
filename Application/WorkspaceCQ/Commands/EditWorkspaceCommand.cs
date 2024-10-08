@@ -7,7 +7,7 @@ namespace Application.WorkspaceCQ.Commands
 {
     public record EditWorkspaceCommand : IRequest<ResponseBase<WorkspaceVIewModel>>
     {
-        public Guid Id { get; set; }
+        public string Id { get; set; }
         public string? Title { get; set; }
         public StatusItemEnum? Status { get; set; }
     }

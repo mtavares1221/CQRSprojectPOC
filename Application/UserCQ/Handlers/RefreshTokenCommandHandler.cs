@@ -38,7 +38,6 @@ namespace Application.UserCQ.Handlers
             _ = int.TryParse(_configuration["JWT:RefreshTokenExpirationTimeInDays"], out int refreshTokenExpirationTimeInDays);
             user.RefreshTokenExpirationTime = DateTime.Now.AddDays(refreshTokenExpirationTimeInDays);
 
-            _unitOfWork.Commit();
 
             var refreshTokenVM = _mapper.Map<RefreshTokenViewModel>(user);
             refreshTokenVM.TokenJWT = _authService.GenerateJWT(user.Email!, user.Username!);
